@@ -1,20 +1,32 @@
-// Lógica para el formulario de contacto
-document.getElementById("contactForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita que la página se recargue
+// Abrir y cerrar el chat
+const chatbox = document.getElementById('chatbox');
+const closeChat = document.getElementById('closeChat');
+const sendChatButton = document.getElementById('sendChat');
+const chatInput = document.getElementById('chatInput');
+const chatMessages = document.getElementById('chatMessages');
 
-    const nombre = document.getElementById("nombre").value;
-    const email = document.getElementById("email").value;
-    const mensaje = document.getElementById("mensaje").value;
+// Abre el chat
+function openChat() {
+    chatbox.style.display = 'block';
+}
 
-    const formMessage = document.getElementById("formMessage");
+// Cierra el chat
+closeChat.addEventListener('click', () => {
+    chatbox.style.display = 'none';
+});
 
-    if (nombre && email && mensaje) {
-        formMessage.style.display = "block";
-        formMessage.textContent = "Gracias por tu mensaje. Nos pondremos en contacto pronto.";
-        formMessage.style.backgroundColor = "#d4edda";
-    } else {
-        formMessage.style.display = "block";
-        formMessage.textContent = "Por favor, completa todos los campos.";
-        formMessage.style.backgroundColor = "#f8d7da";
+// Enviar mensaje
+sendChatButton.addEventListener('click', () => {
+    const userMessage = chatInput.value.trim();
+    if (userMessage) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', 'user');
+        messageDiv.textContent = userMessage;
+        chatMessages.appendChild(messageDiv);
+        chatInput.value = ''; // Limpiar input
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Desplazar hacia abajo
     }
 });
+
+// Abrir chat al hacer clic en el botón flotante
+openChat();
