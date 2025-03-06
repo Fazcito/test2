@@ -1,4 +1,4 @@
-// Abre el chat
+// Variables de chat
 const chatbox = document.getElementById('chatbox');
 const closeChat = document.getElementById('closeChat');
 const sendChatButton = document.getElementById('sendChat');
@@ -14,8 +14,10 @@ const botResponses = {
     "default": "Lo siento, no entendí tu pregunta. ¿Podrías reformularla?"
 };
 
-// Abre el chat al cargar la página
-openChat();
+// Función para abrir el chat
+function openChat() {
+    chatbox.style.display = 'block';
+}
 
 // Cerrar el chat
 closeChat.addEventListener('click', () => {
@@ -24,16 +26,17 @@ closeChat.addEventListener('click', () => {
 
 // Enviar mensaje (usuario)
 sendChatButton.addEventListener('click', () => {
-    const userMessage = chatInput.value.trim();
+    const userMessage = chatInput.value.trim(); // Obtener mensaje del usuario
+    console.log("Mensaje del usuario: " + userMessage); // Depuración
     if (userMessage) {
-        displayMessage(userMessage, 'user');
+        displayMessage(userMessage, 'user'); // Mostrar mensaje del usuario
         chatInput.value = ''; // Limpiar input
         chatMessages.scrollTop = chatMessages.scrollHeight; // Desplazar hacia abajo
-        botReply(userMessage); // Llamada al bot para generar respuesta
+        botReply(userMessage); // Llamar a la función de respuesta del bot
     }
 });
 
-// Mostrar mensajes
+// Mostrar mensajes (usuario y bot)
 function displayMessage(message, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', sender);
@@ -43,16 +46,20 @@ function displayMessage(message, sender) {
 
 // Responder automáticamente como bot
 function botReply(userMessage) {
-    // Convertir la entrada del usuario a minúsculas para hacer una comparación más fácil
+    // Convertir la entrada del usuario a minúsculas para hacer la comparación insensible a mayúsculas/minúsculas
     const lowerCaseMessage = userMessage.toLowerCase();
+    console.log("Mensaje en minúsculas: " + lowerCaseMessage); // Depuración
 
-    // Buscar una respuesta adecuada en el objeto de respuestas
+    // Buscar una respuesta en el objeto de respuestas
     let botResponse = botResponses[lowerCaseMessage] || botResponses["default"];
+    console.log("Respuesta del bot: " + botResponse); // Depuración
 
-    // Mostrar la respuesta del bot
+    // Mostrar la respuesta del bot con un retraso de 1 segundo
     setTimeout(() => {
         displayMessage(botResponse, 'bot');
         chatMessages.scrollTop = chatMessages.scrollHeight; // Desplazar hacia abajo
-    }, 1000); // Simula un pequeño retraso para la respuesta
+    }, 1000); // Simula un retraso de 1 segundo
 }
 
+// Abrir el chat automáticamente al cargar la página
+openChat();
